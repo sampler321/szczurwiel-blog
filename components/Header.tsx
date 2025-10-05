@@ -1,13 +1,14 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Logo from '@/data/logo.svg'
 import Link from './Link'
-import MobileNav from './MobileNav'
-import ThemeSwitch from './ThemeSwitch'
-import SearchButton from './SearchButton'
+import Image from '@/components/Image'
 
 const Header = () => {
-  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
+  const pathname = usePathname()
+  let headerClass = 'flex items-center w-full bg-gray-900 justify-between py-10 md:mx-auto md:max-w-4xl'
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
@@ -16,35 +17,26 @@ const Header = () => {
     <header className={headerClass}>
       <Link href="/" aria-label={siteMetadata.headerTitle}>
         <div className="flex items-center justify-between">
-          <div className="mr-3">
-            <Logo />
-          </div>
-          {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden h-6 text-2xl font-semibold sm:block">
-              {siteMetadata.headerTitle}
-            </div>
-          ) : (
-            siteMetadata.headerTitle
+          {pathname !== '/about' && (
+            <Image src="/media/avatar.png" alt="Avatar" width={48} height={48} className="rounded-full" priority />
+          )}
+          {pathname !== '/about' && (
+            <span className="font-bold text-xl ml-4">Szczurwiel</span>
           )}
         </div>
       </Link>
       <div className="flex items-center space-x-4 leading-5 sm:-mr-6 sm:space-x-6">
-        <div className="no-scrollbar hidden max-w-40 items-center gap-x-4 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96">
-          {headerNavLinks
-            .filter((link) => link.href !== '/')
-            .map((link) => (
-              <Link
-                key={link.title}
-                href={link.href}
-                className="hover:text-primary-500 dark:hover:text-primary-400 m-1 font-medium text-gray-900 dark:text-gray-100"
-              >
-                {link.title}
-              </Link>
-            ))}
+        <div className="no-scrollbar flex flex-wrap items-center gap-x-2 overflow-x-auto pr-4 sm:pr-6 md:max-w-96 w-full justify-center">
+          {headerNavLinks.map((link) => (
+            <Link
+              key={link.title}
+              href={link.href}
+              className="hover:text-primary-500 dark:hover:text-primary-400 m-1 font-medium text-sm text-gray-900 dark:text-gray-100 md:text-base"
+            >
+              {link.title}
+            </Link>
+          ))}
         </div>
-        <SearchButton />
-        <ThemeSwitch />
-        <MobileNav />
       </div>
     </header>
   )

@@ -78,6 +78,14 @@ module.exports = () => {
           protocol: 'https',
           hostname: 'picsum.photos',
         },
+        {
+          protocol: 'https',
+          hostname: 'tunneling-falcon.pikapod.net',
+        },
+        {
+          protocol: 'https',
+          hostname: '**.pikapod.net',
+        },
       ],
       unoptimized,
     },
